@@ -2,10 +2,6 @@
 
 The official [Zapier](https://zapier.com) integration for [isIPsafe](https://isipsafe.com), the free IP reputation and abuse reporting service.
 
-[![Add to Zapier](https://img.shields.io/badge/Zapier-Add%20Integration-orange?logo=zapier)](https://zapier.com/developer/public-invite/249056/48b11dfea83ab937569e6cec9746b660/)
-
-👉 **[Click here to accept the Zapier integration invite and add isIPsafe to your account](https://zapier.com/developer/public-invite/249056/48b11dfea83ab937569e6cec9746b660/)**
-
 - **Check** whether an IP address is malicious before you trust it, and branch your Zap on the answer
 - **Report** attackers from your logs, alerts or forms, one at a time or up to 10,000 at once
 - **Watch the blocklist** and push new high-confidence addresses to your firewall, SIEM or chat
