@@ -40,7 +40,8 @@ jobs:
           test -n "$ZAPIER_DEPLOY_KEY" || { echo "Set the ZAPIER_DEPLOY_KEY secret"; exit 1; }
           echo "$ZAPIER_APP_ID" | grep -Eq '^[0-9]+$' || { echo "Set the ZAPIER_APP_ID variable"; exit 1; }
       - name: Link the Zapier app
-        run: printf '{"id": %s, "key": "App%s"}\n' "$ZAPIER_APP_ID" "$ZAPIER_APP_ID" > .zapierapprc
+        run: |
+          printf '{"id": %s, "key": "App%s"}\n' "$ZAPIER_APP_ID" "$ZAPIER_APP_ID" > .zapierapprc
       - name: Validate, including Zapier integration checks
         run: npx zapier-platform validate
       - name: Push the new version
