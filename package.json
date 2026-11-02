@@ -1,0 +1,70 @@
+{
+  "name": "isipsafe-zapier",
+  "version": "0.1.0",
+  "description": "Zapier integration for isIPsafe: check IP reputation, report abusive addresses and watch the blocklist.",
+  "main": "index.js",
+  "private": true,
+  "license": "MIT",
+  "author": "WaveCentric",
+  "homepage": "https://isipsafe.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isipsafe/isipsafe-zapier.git"
+  },
+  "bugs": {
+    "url": "https://github.com/isipsafe/isipsafe-zapier/issues"
+  },
+  "keywords": [
+    "zapier",
+    "isipsafe",
+    "ip-reputation",
+    "abuse",
+    "blocklist",
+    "security"
+  ],
+  "scripts": {
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "lint": "eslint .",
+    "validate": "zapier-platform validate --without-style"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "zapier-platform-core": "19.3.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.14.0",
+    "globals": "^17.14.0",
+    "jest": "^30.5.2",
+    "nock": "^14.0.17",
+    "zapier-platform-cli": "^19.3.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.js"
+    ],
+    "testMatch": [
+      "<rootDir>/test/**/*.test.js"
+    ],
+    "collectCoverageFrom": [
+      "index.js",
+      "authentication.js",
+      "lib/**/*.js",
+      "triggers/**/*.js",
+      "searches/**/*.js",
+      "creates/**/*.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 85,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
+      }
+    }
+  }
+}

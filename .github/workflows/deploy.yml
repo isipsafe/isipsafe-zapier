@@ -1,0 +1,47 @@
+name: Deploy to Zapier
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to push (must match package.json, e.g. 0.1.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zapier-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: zapier
+    env:
+      DISABLE_ZAPIER_ANALYTICS: '1'
+      ZAPIER_DEPLOY_KEY: ${{ secrets.ZAPIER_DEPLOY_KEY }}
+      ZAPIER_APP_ID: ${{ vars.ZAPIER_APP_ID }}
+      REQUESTED_VERSION: ${{ inputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - name: Check the requested version matches package.json
+        run: test "$(node -p "require('./package.json').version")" = "$REQUESTED_VERSION"
+      - name: Check deploy settings
+        run: |
+          test -n "$ZAPIER_DEPLOY_KEY" || { echo "Set the ZAPIER_DEPLOY_KEY secret"; exit 1; }
+          echo "$ZAPIER_APP_ID" | grep -Eq '^[0-9]+$' || { echo "Set the ZAPIER_APP_ID variable"; exit 1; }
+      - name: Link the Zapier app
+        run: printf '{"id": %s, "key": "App%s"}\n' "$ZAPIER_APP_ID" "$ZAPIER_APP_ID" > .zapierapprc
+      - name: Validate, including Zapier integration checks
+        run: npx zapier-platform validate
+      - name: Push the new version
+        run: npx zapier-platform push
